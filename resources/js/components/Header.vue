@@ -48,7 +48,7 @@
                                 stroke="#0A2B49" stroke-width="2" stroke-miterlimit="1.41421" stroke-linejoin="round" />
                         </svg>
                         <span class="link-span">8 (999) 333–33–03</span></a>
-                    <button class="btn-reset header__btn flex" @click="enterToAdmin">
+                    <a target="_blank" href="https://rus.study/login" class="btn-reset header__btn flex">
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M15.5152 6.36908C15.5152 8.54475 13.7514 10.3085 11.5758 10.3085C9.40009 10.3085 7.63636 8.54475 7.63636 6.36908C7.63636 4.19341 9.40009 2.42969 11.5758 2.42969C13.7514 2.42969 15.5152 4.19341 15.5152 6.36908Z" />
@@ -56,7 +56,7 @@
                                 d="M4 20.46C4 17.1965 6.64559 14.5509 9.90909 14.5509H13.2424C16.5059 14.5509 19.1515 17.1965 19.1515 20.46C19.1515 21.5478 18.2697 22.4297 17.1818 22.4297H5.9697C4.88186 22.4297 4 21.5478 4 20.46Z" />
                         </svg>
                         Вход
-                    </button>
+                    </a>
                 </div>
             </div>
 

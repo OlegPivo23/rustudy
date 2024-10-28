@@ -5,7 +5,7 @@
                 <img src="../../../public/img/logo_footer.svg" alt="logo">
             </router-link>
             <div class="flex">
-                <small class="footer_small small_data">&copy;&nbsp;2023</small>
+                <small class="footer_small small_data">&copy;&nbsp;{{date.getFullYear()}}</small>
                 <small class="footer_small">Обрсоюз«Союз участников отношений в сфере образования»</small>
             </div>
         </div>
@@ -85,6 +85,10 @@
 
 <script>
 export default {
-
+    data() {
+        return {
+            date: new Date()
+        }
+    }
 }
 </script>

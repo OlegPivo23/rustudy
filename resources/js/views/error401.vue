@@ -68,7 +68,7 @@
                                 </li>
                                 <li class="error__item flex">
                                     <p class="error__offer">Пройти курсы повышения квалификации</p>
-                                    <router-link to="#" class="error__link-container flex">
+                                    <a target="_blank" href="https://kurs.rus.study/" class="error__link-container flex">
                                         <p class="error__link">Курсы РКИ</p>
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -76,7 +76,7 @@
                                                 stroke="white" stroke-width="2" stroke-linecap="round"
                                                 stroke-linejoin="round" />
                                         </svg>
-                                    </router-link>
+                                    </a>
                                 </li>
                             </ul>
                         </div>

@@ -86,7 +86,7 @@
                             <span class="form__text">E-mail *</span>
                             <label for="" class="form__label">
                                 <button class="modal__btn hidden" @click.prevent="clearInput"></button>
-                                <Field :class="{'error-input': errorEmail}" class="form__input" name="email" v-model="email" type="text" placeholder="Введите E-mail" :rules="validateEmail" @input="inputChange" @keydown="deleteNumber"/>
+                                <Field :class="{'error-input': errorEmail}" class="form__input" name="email" v-model="email" type="text" placeholder="Введите E-mail" :rules="validateEmail" @input="inputChange"/>
                                 <span v-show="errorEmail" class="error-icon"></span>
                                 <ErrorMessage class="form__error" name="email" />
                             </label>
@@ -210,6 +210,10 @@ configure({
 
             deleteNumber(e) {
                 if( e.key.match(/[0-9]/) ) return e.preventDefault();
+            },
+
+            deleteLetter(e) {
+                if (e.key.match(/^[a-zA-Zа-яА-Я]$/)) return e.preventDefault();
             },
         }
     }
