@@ -22,7 +22,7 @@
                                     <p class="error__text error__text_401">Данная страница доступна для авторизованных
                                         пользователей. Для продолжения работы необходимо зарегистрироваться и&nbsp;войти под
                                         своей учетной записью.</p>
-                                    <a target="_blank" href="https://rus.study/login "
+                                    <a target="_blank" href="https://book.rus.study/login"
                                         class="btn-reset error__btn error__btn_registration">Авторизоваться</a>
                                 </div>
 
