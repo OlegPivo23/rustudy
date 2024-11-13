@@ -96,7 +96,7 @@
                                        class="form__input" :class="{'error-input': errorEmail}"
                                        @input="inputChange" v-model="email" :rules="validateEmail"/>
                                 <span v-show="errorEmail" class="error-icon"></span>
-                                <ErrorMessage class="form__error" name="email"/>
+                                <ErrorMessage class="form__error" name="email" v-if="errorEmail"/>
                             </label>
                         </div>
 
@@ -134,10 +134,17 @@
                     </swiper-slide>
                 </Swiper>
             </section>
+
         </main>
         <Footer/>
     </div>
+    <SuggestModal
+        v-if="showModal"
+        :showModal="showModal"
+        @close="updateModal"
+    />
 </template>
+
 <script>
 
 import Header from '../components/Header.vue';
@@ -151,6 +158,8 @@ import {getAffiche} from "../dbquery/getAffiche";
 import {useHead} from "unhead";
 import {email} from "@vuelidate/validators";
 import axios from "axios";
+import SuggestModal from "@/components/modal/SuggestModal.vue";
+import {ref, watch} from "vue";
 
 
 export default {
@@ -160,13 +169,14 @@ export default {
             return email
         }
     },
-    components: {Header, Footer, Swiper, SwiperSlide, Form, Field, ErrorMessage},
+    components: {SuggestModal, Header, Footer, Swiper, SwiperSlide, Form, Field, ErrorMessage},
 
     data() {
         return {
             email: '',
             errorEmail: false,
             affiche: [],
+            showModal: ref(false),
         }
     },
 
@@ -177,7 +187,6 @@ export default {
     },
 
     methods: {
-
         inputChange(e) {
             const btn = e.target.previousSibling;
 
@@ -217,6 +226,9 @@ export default {
 
             return true;
         },
+        updateModal() {
+            this.showModal = false
+        },
         async sendSubscription(email) {
             try {
                 // Получение внешнего IP-адреса
@@ -248,7 +260,9 @@ export default {
                 const response = await axios.post('https://agent.prostoy.ru/api/ultraform.php', data);
 
                 if (response.data) {
-                    window.location.reload(); // Перезагрузка страницы при успешной отправке
+                    this.showModal = true
+                    this.email = ''
+                    this.errorEmail = false
                 }
 
                 console.log('Простой бизнес ====', response.data);
@@ -266,7 +280,6 @@ export default {
                 throw error;
             }
 
-            console.log(email); // Логирование email для отладки
         }
 
     },
@@ -318,7 +331,22 @@ export default {
         })
 
     },
+    watch: {
+        showModal(newValue) {
+            if (newValue) {
+                document.body.classList.add('no-scroll');
+            } else {
+                document.body.classList.remove('no-scroll');
+            }
+        }
+    },
 }
 
 </script>
+<style>
+.no-scroll {
+    overflow: hidden;
+    height: 100%;
+}
+</style>
 
