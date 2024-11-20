@@ -151,8 +151,6 @@ export default {
                 localStorage.lon = response.geoObjects.position[1]
                 myMap.geoObjects.add(response.geoObjects)
                 myMap.setCenter(response.geoObjects.position)
-                console.log(response.geoObjects.position)
-                console.log(this.center)
             })
             .catch(err => console.log(err));
 
@@ -306,7 +304,11 @@ export default {
 
             postcodeArray.forEach(postcode => {
                 postcode.forEach(item => {
-                    if (item.unrestricted_value.toLowerCase().includes(this.city.toLowerCase())) {
+                    const searchTerms = this.city.toLowerCase().trim().split(/\s+/);
+                    const addressParts = item.unrestricted_value.toLowerCase().split(/[ ,]/); // Разбиваем на слова и запятые
+                    const found = searchTerms.every(term => addressParts.some(part => part.includes(term)));
+
+                    if (found) {
                         this.listAddress.push({
                             lat: item.data.geo_lat,
                             lon: item.data.geo_lon,
@@ -421,7 +423,6 @@ export default {
                 .then(response => response.json())
                 .then(response => {
                     this.clientIp = response.ip;
-                    console.log(this.clientIp)
                 })
                 .catch(error => console.log(error))
 
