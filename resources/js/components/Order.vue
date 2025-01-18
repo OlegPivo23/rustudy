@@ -644,84 +644,103 @@ export default {
 
 
         async sendBusiness() {
-            let res = {
-                fio: this.fio,
-                email: this.email,
-                country: this.country,
-                telephone: this.phone.replaceAll(' ', ''),
-                promocode: this.promocode,
-                sum: this.total,
-                address: this.getAddress,
-                pickup: this.deliveryValue,
-                payment: this.paymentValue,
-                courses: this.getCourseID,
-                subscription: this.subscription,
-                amountBooks: 0,
-            }
-
-            const rawBookItem = toRaw(this.selectedProducts);
-            let rawBook = ''
-
-            rawBookItem.forEach((elem) => {
-                rawBook += ` ${elem.type} - ${elem.level} - ${elem.amount}; `
-                res.amountBooks += elem.amount
-            })
-            console.log(rawBook)
-
-            if (this.deliveryValue != 0) {
-                const rawAdress = toRaw(this.address);
-                res.address = `${rawAdress.postal_code} - ${rawAdress.address}`
-            } else {
-                res.address = 'Самовывоз'
-            }
-            try {
-                const data = {
-                    iform: true,
-                    referer: "",
-                    action: "send_iform",
-                    hash: 'ff804a64a4f4e37497b839670b0420dd',
-                    task_id: '3200216',
-                    formdata: {
-                        C88E9A7446509E29: 2, // id
-                        ACA1ACA80E1880D0: res.amountBooks,
-                        AB32F2C44CC81CDE: rawBook,
-                        B74697A44A7E8175: res.fio, // ФИО
-                        ACBC68945482CB64: res.email, // Email
-                        A1BF0514548AEE7E: res.country, // Страна
-                        A6B381C45245B655: res.telephone, // Телефон
-                        AFF0CED46217CFC8: res.address, // Способ получения
-                        A51D2114642ED1B5: res.payment, // Способ оплаты
-                        AA0672546C46A6B6: res.promocode, // Промокод
-                        AD537D872511ED20: res.sum,
-                    }
-                };
-
-                // Отправляем POST-запрос
-                const response = await axios.post('https://agent.prostoy.ru/api/ultraform.php', data);
-                console.log('Простой бизнес ====', response.data);
-
-            } catch (error) {
-                if (error.response) {
-                    console.log('Ошибка Простой бизнес:', error.response.data);
-                    console.log('Статус ошибки Простой бизнес:', error.response.status);
-                    console.log('Заголовки Простой бизнес:', error.response.headers);
-                } else if (error.request) {
-                    console.log('Ошибка при ожидании ответа от сервера Простой бизнес:', error.request);
-                } else {
-                    console.log('Ошибка Простой бизнес:', error.message);
-                }
-                throw error;
-            }
+            // let res = {
+            //     fio: this.fio,
+            //     email: this.email,
+            //     country: this.country,
+            //     telephone: this.phone.replaceAll(' ', ''),
+            //     promocode: this.promocode,
+            //     sum: this.total,
+            //     address: this.getAddress,
+            //     pickup: this.deliveryValue,
+            //     payment: this.paymentValue,
+            //     courses: this.getCourseID,
+            //     subscription: this.subscription,
+            //     amountBooks: 0,
+            // }
+            //
+            // const rawBookItem = toRaw(this.selectedProducts);
+            // let rawBook = ''
+            //
+            // rawBookItem.forEach((elem) => {
+            //     rawBook += ` ${elem.type} - ${elem.level} - ${elem.amount}; `
+            //     res.amountBooks += elem.amount
+            // })
+            // console.log(rawBook)
+            //
+            // if (this.deliveryValue != 0) {
+            //     const rawAdress = toRaw(this.address);
+            //     res.address = `${rawAdress.postal_code} - ${rawAdress.address}`
+            // } else {
+            //     res.address = 'Самовывоз'
+            // }
+            // try {
+            //     const data = {
+            //         iform: true,
+            //         referer: "",
+            //         action: "send_iform",
+            //         hash: 'ff804a64a4f4e37497b839670b0420dd',
+            //         task_id: '3200216',
+            //         formdata: {
+            //             C88E9A7446509E29: 2, // id
+            //             ACA1ACA80E1880D0: res.amountBooks,
+            //             AB32F2C44CC81CDE: rawBook,
+            //             B74697A44A7E8175: res.fio, // ФИО
+            //             ACBC68945482CB64: res.email, // Email
+            //             A1BF0514548AEE7E: res.country, // Страна
+            //             A6B381C45245B655: res.telephone, // Телефон
+            //             AFF0CED46217CFC8: res.address, // Способ получения
+            //             A51D2114642ED1B5: res.payment, // Способ оплаты
+            //             AA0672546C46A6B6: res.promocode, // Промокод
+            //             AD537D872511ED20: res.sum,
+            //         }
+            //     };
+            //
+            //     // Отправляем POST-запрос
+            //     const response = await axios.post('https://agent.prostoy.ru/api/ultraform.php', data);
+            //     console.log('Простой бизнес ====', response.data);
+            //
+            // } catch (error) {
+            //     if (error.response) {
+            //         console.log('Ошибка Простой бизнес:', error.response.data);
+            //         console.log('Статус ошибки Простой бизнес:', error.response.status);
+            //         console.log('Заголовки Простой бизнес:', error.response.headers);
+            //     } else if (error.request) {
+            //         console.log('Ошибка при ожидании ответа от сервера Простой бизнес:', error.request);
+            //     } else {
+            //         console.log('Ошибка Простой бизнес:', error.message);
+            //     }
+            //     throw error;
+            // }
         },
 
         async sendRobokassa() {
             let res = {
-                out_sum: this.total
+                    //     fio: this.fio,
+                    //     email: this.email,
+                    //     country: this.country,
+                    //     telephone: this.phone.replaceAll(' ', ''),
+                    //     promocode: this.promocode,
+                    //     sum: this.total,
+                    //     address: this.getAddress,
+                    //     pickup: this.deliveryValue,
+                    //     payment: this.paymentValue,
+                    //     courses: this.getCourseID,
+                    //     subscription: this.subscription,
+                    //     amountBooks: 0,
             }
             try {
                 const response = await axios.get('/api/payment', {
                     params: {
-                        out_sum: this.total
+                        out_sum: this.total,
+                        fio: this.fio;
+                        country: this.country,
+                        telephone: this.phone.replaceAll(' ', ''),
+                        promocode: this.promocode,
+                        address: this.getAddress,
+                        pickup: this.deliveryValue,
+                        subscription: this.subscription,
+                        courses: this.getCourseID,
                     }
                 })
                     .then(response => {
