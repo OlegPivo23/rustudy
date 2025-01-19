@@ -733,7 +733,7 @@ export default {
                 const response = await axios.get('/api/payment', {
                     params: {
                         out_sum: this.total,
-                        fio: this.fio;
+                        fio: this.fio,
                         country: this.country,
                         telephone: this.phone.replaceAll(' ', ''),
                         promocode: this.promocode,
