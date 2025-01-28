@@ -3,8 +3,16 @@
         <div class="modal__offer order">
             <div class="modal__overlay">
                 <div class="modal__window">
-                    <button class="btn-reset btn-close" @click="$emit('close-order')"></button>
-                    <Form @InvalidSubmit="onInvalidSubmit" @submit="onSubmit()" class="order__form" method="post">
+                    <button
+                        class="btn-reset btn-close"
+                        @click="$emit('close-order')"
+                    ></button>
+                    <Form
+                        @InvalidSubmit="onInvalidSubmit"
+                        @submit="onSubmit()"
+                        class="order__form"
+                        method="post"
+                    >
                         <!-- <div class="flex currency-block">
                             <label class="order__label currency">
                                 <input type="radio" class="visually-hidden" name="currency" value="rub"
@@ -41,9 +49,7 @@
                             </label>
                         </div> -->
 
-
                         <div class="order__container">
-
                             <div class="order__left">
                                 <div class="products">
                                     <!-- <OrderItem @addProduct="addProduct(book)" @book-item="getBookItem" @amount="amount" v-for="book in books" :key="book.id" :book="book"
@@ -53,7 +59,12 @@
                                         class="product"
                                         v-for="book in booksArray"
                                         :key="book.id"
-                                        :class="{active: this.selectedProducts.some(product => product.id === book.id)}"
+                                        :class="{
+                                            active: this.selectedProducts.some(
+                                                (product) =>
+                                                    product.id === book.id
+                                            ),
+                                        }"
                                     >
                                         <div class="order__product">
                                             <input
@@ -62,151 +73,452 @@
                                                 name="product"
                                                 :value="book"
                                                 @change="addProduct(book)"
-                                            >
-                                            <span class="product__checkbox"></span>
-                                            <img :src="book.image" alt="">
+                                            />
+                                            <span
+                                                class="product__checkbox"
+                                            ></span>
+                                            <img :src="book.image" alt="" />
                                             <div class="product__name">
                                                 <p>{{ book.type }}</p>
-                                                <p>{{ book.name }} {{ book.level }}</p>
+                                                <p>
+                                                    {{ book.name }}
+                                                    {{ book.level }}
+                                                </p>
                                             </div>
                                         </div>
 
-                                        <div v-if="!book.isOnline" class="product__count count">
-                                            <p class="count__text">Количество</p>
+                                        <div
+                                            v-if="!book.isOnline"
+                                            class="product__count count"
+                                        >
+                                            <p class="count__text">
+                                                Количество
+                                            </p>
                                             <div class="count__block">
-                                                <button @click.prevent="decrementProduct(book)"
-                                                        class="btn-reset product__btn product__btn--decrement"
-                                                        :disabled="!this.selectedProducts.some(product => product.id === book.id)"></button>
-                                                <input type="number" class="count__num"
-                                                       :name="'count['+ book.id +']'" v-model="book.amount">
-                                                <button @click.prevent="incrementProduct(book)"
-                                                        class="btn-reset product__btn product__btn--increment"
-                                                        :disabled="!this.selectedProducts.some(product => product.id === book.id)"></button>
+                                                <button
+                                                    @click.prevent="
+                                                        decrementProduct(book)
+                                                    "
+                                                    class="btn-reset product__btn product__btn--decrement"
+                                                    :disabled="
+                                                        !this.selectedProducts.some(
+                                                            (product) =>
+                                                                product.id ===
+                                                                book.id
+                                                        )
+                                                    "
+                                                ></button>
+                                                <input
+                                                    type="number"
+                                                    class="count__num"
+                                                    :name="
+                                                        'count[' + book.id + ']'
+                                                    "
+                                                    v-model="book.amount"
+                                                />
+                                                <button
+                                                    @click.prevent="
+                                                        incrementProduct(book)
+                                                    "
+                                                    class="btn-reset product__btn product__btn--increment"
+                                                    :disabled="
+                                                        !this.selectedProducts.some(
+                                                            (product) =>
+                                                                product.id ===
+                                                                book.id
+                                                        )
+                                                    "
+                                                ></button>
                                             </div>
                                         </div>
 
-                                        <div v-else-if="book.isOnline" class="product__count sub">
+                                        <div
+                                            v-else-if="book.isOnline"
+                                            class="product__count sub"
+                                        >
                                             <div class="sub__text">
                                                 <div class="tooltip">
                                                     Подписка
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                                         viewBox="0 0 12 12" fill="none">
-                                                        <rect width="12" height="12" rx="6"/>
-                                                        <path d="M6 9.5V9.505M6 7.5V2.5" stroke="#0A2B49"
-                                                              stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="12"
+                                                        height="12"
+                                                        viewBox="0 0 12 12"
+                                                        fill="none"
+                                                    >
+                                                        <rect
+                                                            width="12"
+                                                            height="12"
+                                                            rx="6"
+                                                        />
+                                                        <path
+                                                            d="M6 9.5V9.505M6 7.5V2.5"
+                                                            stroke="#0A2B49"
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                        />
                                                     </svg>
 
                                                     <div class="tooltip__block">
-                                                        <p class="tooltip__title">Подписка на 1 год</p>
-                                                        <p class="tooltip__text">Приобретая интерактивный учебник на год, вы получаете доступ к самым актуальным материалам в течение всего учебного года. </p>
-                                                        <p class="tooltip__title">Подписка навсегда</p>
-                                                        <p class="tooltip__text">Выбирая покупку интерактивного учебника навсегда, вы инвестируете в свое образование на долгие годы.</p>
+                                                        <p
+                                                            class="tooltip__title"
+                                                        >
+                                                            Подписка на 1 год
+                                                        </p>
+                                                        <p
+                                                            class="tooltip__text"
+                                                        >
+                                                            Приобретая
+                                                            интерактивный
+                                                            учебник на год, вы
+                                                            получаете доступ к
+                                                            самым актуальным
+                                                            материалам в течение
+                                                            всего учебного года.
+                                                        </p>
+                                                        <p
+                                                            class="tooltip__title"
+                                                        >
+                                                            Подписка навсегда
+                                                        </p>
+                                                        <p
+                                                            class="tooltip__text"
+                                                        >
+                                                            Выбирая покупку
+                                                            интерактивного
+                                                            учебника навсегда,
+                                                            вы инвестируете в
+                                                            свое образование на
+                                                            долгие годы.
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div v-if="book.course_id == 8" class="flex sub__block">
+                                            <div
+                                                v-if="book.course_id == 8"
+                                                class="flex sub__block"
+                                            >
                                                 <label class="sub__label">
-                                                    <input type="radio" class="visually-hidden"
-                                                           :name="'sub['+ book.id +']'" :value="book.price.year[this.currencyValue]"
-                                                           :disabled="!this.selectedProducts.some(product => product.id === book.id)"
-                                                           :checked="this.selectedProducts.some(product => product.id === book.id)"
-                                                           v-model="termOnlineBook1"
-                                                           @change="changeTermBook($event, book.id)">
+                                                    <input
+                                                        type="radio"
+                                                        class="visually-hidden"
+                                                        :name="
+                                                            'sub[' +
+                                                            book.id +
+                                                            ']'
+                                                        "
+                                                        :value="
+                                                            book.price.year[
+                                                                this
+                                                                    .currencyValue
+                                                            ]
+                                                        "
+                                                        :disabled="
+                                                            !this.selectedProducts.some(
+                                                                (product) =>
+                                                                    product.id ===
+                                                                    book.id
+                                                            )
+                                                        "
+                                                        :checked="
+                                                            this.selectedProducts.some(
+                                                                (product) =>
+                                                                    product.id ===
+                                                                    book.id
+                                                            )
+                                                        "
+                                                        v-model="
+                                                            termOnlineBook1
+                                                        "
+                                                        @change="
+                                                            changeTermBook(
+                                                                $event,
+                                                                book.id
+                                                            )
+                                                        "
+                                                    />
                                                     <span></span>
                                                     1 год
                                                 </label>
                                                 <label class="sub__label">
-                                                    <input type="radio" class="visually-hidden"
-                                                           :name="'sub['+ book.id +']'" :value="book.price.always[this.currencyValue]"
-                                                           :disabled="!(this.selectedProducts.some(product => product.id === book.id))"
-                                                           :checked="this.selectedProducts.some(product => product.id === book.id)"
-                                                           v-model="termOnlineBook1"
-                                                           @change="changeTermBook($event, book.id)">
+                                                    <input
+                                                        type="radio"
+                                                        class="visually-hidden"
+                                                        :name="
+                                                            'sub[' +
+                                                            book.id +
+                                                            ']'
+                                                        "
+                                                        :value="
+                                                            book.price.always[
+                                                                this
+                                                                    .currencyValue
+                                                            ]
+                                                        "
+                                                        :disabled="
+                                                            !this.selectedProducts.some(
+                                                                (product) =>
+                                                                    product.id ===
+                                                                    book.id
+                                                            )
+                                                        "
+                                                        :checked="
+                                                            this.selectedProducts.some(
+                                                                (product) =>
+                                                                    product.id ===
+                                                                    book.id
+                                                            )
+                                                        "
+                                                        v-model="
+                                                            termOnlineBook1
+                                                        "
+                                                        @change="
+                                                            changeTermBook(
+                                                                $event,
+                                                                book.id
+                                                            )
+                                                        "
+                                                    />
                                                     <span></span>
                                                     Навсегда
                                                 </label>
                                             </div>
-                                            <div v-if="book.course_id == 9" class="flex sub__block">
+                                            <div
+                                                v-if="book.course_id == 9"
+                                                class="flex sub__block"
+                                            >
                                                 <label class="sub__label">
-                                                    <input type="radio" class="visually-hidden"
-                                                           :name="'sub['+ book.id +']'" :value="book.price.year[this.currencyValue]"
-                                                           :disabled="!(this.selectedProducts.some(product => product.id === book.id))"
-                                                           :checked="this.selectedProducts.some(product => product.id === book.id)"
-                                                           v-model="termOnlineBook2"
-                                                           @change="changeTermBook($event, book.id)">
+                                                    <input
+                                                        type="radio"
+                                                        class="visually-hidden"
+                                                        :name="
+                                                            'sub[' +
+                                                            book.id +
+                                                            ']'
+                                                        "
+                                                        :value="
+                                                            book.price.year[
+                                                                this
+                                                                    .currencyValue
+                                                            ]
+                                                        "
+                                                        :disabled="
+                                                            !this.selectedProducts.some(
+                                                                (product) =>
+                                                                    product.id ===
+                                                                    book.id
+                                                            )
+                                                        "
+                                                        :checked="
+                                                            this.selectedProducts.some(
+                                                                (product) =>
+                                                                    product.id ===
+                                                                    book.id
+                                                            )
+                                                        "
+                                                        v-model="
+                                                            termOnlineBook2
+                                                        "
+                                                        @change="
+                                                            changeTermBook(
+                                                                $event,
+                                                                book.id
+                                                            )
+                                                        "
+                                                    />
                                                     <span></span>
                                                     1 год
                                                 </label>
                                                 <label class="sub__label">
-                                                    <input type="radio" class="visually-hidden"
-                                                           :name="'sub['+ book.id +']'" :value="book.price.always[this.currencyValue]"
-                                                           :disabled="!(this.selectedProducts.some(product => product.id === book.id))"
-                                                           :checked="this.selectedProducts.some(product => product.id === book.id)"
-                                                           v-model="termOnlineBook2"
-                                                           @change="changeTermBook($event, book.id)">
+                                                    <input
+                                                        type="radio"
+                                                        class="visually-hidden"
+                                                        :name="
+                                                            'sub[' +
+                                                            book.id +
+                                                            ']'
+                                                        "
+                                                        :value="
+                                                            book.price.always[
+                                                                this
+                                                                    .currencyValue
+                                                            ]
+                                                        "
+                                                        :disabled="
+                                                            !this.selectedProducts.some(
+                                                                (product) =>
+                                                                    product.id ===
+                                                                    book.id
+                                                            )
+                                                        "
+                                                        :checked="
+                                                            this.selectedProducts.some(
+                                                                (product) =>
+                                                                    product.id ===
+                                                                    book.id
+                                                            )
+                                                        "
+                                                        v-model="
+                                                            termOnlineBook2
+                                                        "
+                                                        @change="
+                                                            changeTermBook(
+                                                                $event,
+                                                                book.id
+                                                            )
+                                                        "
+                                                    />
                                                     <span></span>
                                                     Навсегда
                                                 </label>
                                             </div>
                                         </div>
-                                        <p v-if="!book.isOnline && book.amount == 0" class="product__price">{{ book.price[currencyValue] }} ₽</p>
-                                        <p v-else-if="!book.isOnline && book.amount > 0" class="product__price">{{ book.price[currencyValue] * book.amount }} ₽</p>
-                                        <p v-else-if="book.course_id == 8" class="product__price">{{ termOnlineBook1 }} ₽</p>
-                                        <p v-else-if="book.course_id == 9" class="product__price">{{ termOnlineBook2 }} ₽</p>
+                                        <p
+                                            v-if="
+                                                !book.isOnline &&
+                                                book.amount == 0
+                                            "
+                                            class="product__price"
+                                        >
+                                            {{ book.price[currencyValue] }} ₽
+                                        </p>
+                                        <p
+                                            v-else-if="
+                                                !book.isOnline &&
+                                                book.amount > 0
+                                            "
+                                            class="product__price"
+                                        >
+                                            {{
+                                                book.price[currencyValue] *
+                                                book.amount
+                                            }} ₽
+                                        </p>
+                                        <p
+                                            v-else-if="book.course_id == 8"
+                                            class="product__price"
+                                        >
+                                            {{ termOnlineBook1 }} ₽
+                                        </p>
+                                        <p
+                                            v-else-if="book.course_id == 9"
+                                            class="product__price"
+                                        >
+                                            {{ termOnlineBook2 }} ₽
+                                        </p>
 
                                         <!--
                                        <p v-show="currencyValue == 'usd'" class="product__price">{{ book.usd }} $</p>
                                        <p v-show="currencyValue == 'eur'" class="product__price">{{ book.eur }} €</p> -->
                                     </label>
-
                                 </div>
                                 <div class="order__info info">
                                     <div>
                                         <span class="form__text">Ф.И.О *</span>
                                         <label for="" class="form__label">
-                                            <button class="modal__btn hidden" @click.prevent="clearInput"></button>
-                                            <Field :class="{'error-input': errorFio}" class="form__input" name="fio"
-                                                   v-model="fio" type="text" placeholder="Введите Ф.И.О"
-                                                   :rules="validateFio" @input="inputChange" @keydown="deleteNumber"/>
-                                            <span v-show="errorFio" class="error-icon"></span>
-                                            <ErrorMessage class="form__error" name="fio"/>
+                                            <button
+                                                class="modal__btn hidden"
+                                                @click.prevent="clearInput"
+                                            ></button>
+                                            <Field
+                                                :class="{
+                                                    'error-input': errorFio,
+                                                }"
+                                                class="form__input"
+                                                name="fio"
+                                                v-model="fio"
+                                                type="text"
+                                                placeholder="Введите Ф.И.О"
+                                                :rules="validateFio"
+                                                @input="inputChange"
+                                                @keydown="deleteNumber"
+                                            />
+                                            <span
+                                                v-show="errorFio"
+                                                class="error-icon"
+                                            ></span>
+                                            <ErrorMessage
+                                                class="form__error"
+                                                name="fio"
+                                            />
                                         </label>
                                     </div>
 
                                     <div>
                                         <span class="form__text">Страна</span>
                                         <label for="" class="form__label">
-                                            <button class="modal__btn hidden" @click.prevent="clearInput"></button>
-                                            <input class="form__input" name="country" v-model="country" type="text"
-                                                   placeholder="Введите страну" @input="inputChange"
-                                                   @keydown="deleteNumber"/>
+                                            <button
+                                                class="modal__btn hidden"
+                                                @click.prevent="clearInput"
+                                            ></button>
+                                            <input
+                                                class="form__input"
+                                                name="country"
+                                                v-model="country"
+                                                type="text"
+                                                placeholder="Введите страну"
+                                                @input="inputChange"
+                                                @keydown="deleteNumber"
+                                            />
                                         </label>
                                     </div>
 
-
                                     <div class="info-block">
                                         <div class="w-100">
-                                            <span class="form__text">Email *</span>
+                                            <span class="form__text"
+                                                >Email *</span
+                                            >
                                             <label for="" class="form__label">
-                                                <button v-show="!errorEmail" class="modal__btn hidden"
-                                                        @click.prevent="clearInput"></button>
-                                                <Field :class="{'error-input': errorEmail}" class="form__input"
-                                                       name="email" v-model="email" type="text"
-                                                       placeholder="Введите email" :rules="validateEmail"
-                                                       @input="inputChange"/>
-                                                <span v-show="errorEmail" class="error-icon"></span>
-                                                <ErrorMessage class="form__error" name="email"/>
+                                                <button
+                                                    v-show="!errorEmail"
+                                                    class="modal__btn hidden"
+                                                    @click.prevent="clearInput"
+                                                ></button>
+                                                <Field
+                                                    :class="{
+                                                        'error-input':
+                                                            errorEmail,
+                                                    }"
+                                                    class="form__input"
+                                                    name="email"
+                                                    v-model="email"
+                                                    type="text"
+                                                    placeholder="Введите email"
+                                                    :rules="validateEmail"
+                                                    @input="inputChange"
+                                                />
+                                                <span
+                                                    v-show="errorEmail"
+                                                    class="error-icon"
+                                                ></span>
+                                                <ErrorMessage
+                                                    class="form__error"
+                                                    name="email"
+                                                />
                                             </label>
                                         </div>
                                         <div class="w-100">
-                                            <span class="form__text">Телефон *</span>
+                                            <span class="form__text"
+                                                >Телефон *</span
+                                            >
                                             <label for="" class="form__label">
-                                                <vue-tel-input class="form__input" :class="{'error-input': errorTel}" v-model="phone" @country-changed="countryChanged"
-                                                               @validate="customValidate"
-                                                               @keydown="deleteLetter"/>
-                                                <span v-show="errorTel" class="error-icon"/>
+                                                <vue-tel-input
+                                                    class="form__input"
+                                                    :class="{
+                                                        'error-input': errorTel,
+                                                    }"
+                                                    v-model="phone"
+                                                    @country-changed="
+                                                        countryChanged
+                                                    "
+                                                    @validate="customValidate"
+                                                    @keydown="deleteLetter"
+                                                />
+                                                <span
+                                                    v-show="errorTel"
+                                                    class="error-icon"
+                                                />
                                             </label>
-
                                         </div>
                                     </div>
                                 </div>
@@ -215,101 +527,199 @@
                                     <p class="order__title">Способ оплаты</p>
                                     <div class="payment__block">
                                         <label class="payment__label">
-                                            <input type="radio" class="visually-hidden" name="payment" value="robokassa"
-                                                   v-model="paymentValue" checked/>
+                                            <input
+                                                type="radio"
+                                                class="visually-hidden"
+                                                name="payment"
+                                                value="robokassa"
+                                                v-model="paymentValue"
+                                                checked
+                                            />
                                             <span></span>
-                                            <img src="img/payment-1.svg" alt="Robokassa">
+                                            <img
+                                                src="img/payment-1.svg"
+                                                alt="Robokassa"
+                                            />
                                         </label>
-
                                     </div>
-
                                 </div>
 
-                                <div class="order__block delivery" v-show="this.haveOfflineBook">
+                                <div
+                                    class="order__block delivery"
+                                    v-show="this.haveOfflineBook"
+                                >
                                     <p class="order__title">Способ получения</p>
                                     <div class="delivery__block">
                                         <div>
                                             <label class="delivery__label">
-                                                <input type="radio" class="visually-hidden" name="delivery"
-                                                       value="0" @change="selectedDelivery" checked/>
+                                                <input
+                                                    type="radio"
+                                                    class="visually-hidden"
+                                                    name="delivery"
+                                                    value="0"
+                                                    @change="selectedDelivery"
+                                                    checked
+                                                />
                                                 <span></span>
                                                 Самовывоз
                                             </label>
-                                            <p>г. Москва, ул. Ростовская набережная, д. 5, вход с внутреннего двора,
-                                                слева от 5-го подъезда (бесплатно)</p>
+                                            <p>
+                                                г. Москва, ул. Ростовская
+                                                набережная, д. 5, вход
+                                                с внутреннего двора, слева
+                                                от 5-го подъезда (бесплатно)
+                                            </p>
                                         </div>
 
                                         <div>
                                             <label class="delivery__label">
-                                                <input type="radio" class="visually-hidden" name="delivery"
-                                                       value="1" @change="selectedDelivery"/>
+                                                <input
+                                                    type="radio"
+                                                    class="visually-hidden"
+                                                    name="delivery"
+                                                    value="1"
+                                                    @change="selectedDelivery"
+                                                />
                                                 <span></span>
                                                 Доставка почтой России
                                             </label>
-                                            <p>Стоимость пересылки осуществляется за счет покупателя по тарифам Почты России.</p>
+                                            <p>
+                                                Стоимость пересылки
+                                                осуществляется за счет
+                                                покупателя по тарифам Почты
+                                                России.
+                                            </p>
                                         </div>
-
                                     </div>
                                 </div>
 
-                                <Pochta :addressError="this.addressError" @address="activeCity" v-show="deliveryValue == 1"/>
-
+                                <Pochta
+                                    :addressError="this.addressError"
+                                    @address="activeCity"
+                                    v-show="deliveryValue == 1"
+                                />
                             </div>
                             <div class="order__right">
                                 <div class="order__block">
                                     <div class="between-block">
                                         <p class="order__title">Итого</p>
-                                        <p class="order__price order__price--bold">{{ total }} ₽</p>
+                                        <p
+                                            class="order__price order__price--bold"
+                                        >
+                                            {{ total }} ₽
+                                        </p>
                                     </div>
                                     <div class="between-block">
-                                        <p class="order__text">Товары, {{ productAmount }}  шт.</p>
-                                        <p class="order__price">{{ total }} ₽</p>
+                                        <p class="order__text">
+                                            Товары, {{ productAmount }}  шт.
+                                        </p>
+                                        <p class="order__price">
+                                            {{ total }} ₽
+                                        </p>
                                     </div>
 
                                     <p class="order__text order__text--info">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                             viewBox="0 0 12 12" fill="none">
-                                            <rect width="12" height="12" rx="6" fill="#B6D3FD"/>
-                                            <path d="M6 9.5V9.505M6 7.5V2.5" stroke="#0A2B49" stroke-linecap="round"
-                                                  stroke-linejoin="round"/>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="12"
+                                            height="12"
+                                            viewBox="0 0 12 12"
+                                            fill="none"
+                                        >
+                                            <rect
+                                                width="12"
+                                                height="12"
+                                                rx="6"
+                                                fill="#B6D3FD"
+                                            />
+                                            <path
+                                                d="M6 9.5V9.505M6 7.5V2.5"
+                                                stroke="#0A2B49"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                            />
                                         </svg>
-                                        Мы свяжемся с вами, чтобы уточнить сроки и стоимость доставки.
+                                        Мы свяжемся с вами, чтобы уточнить сроки
+                                        и стоимость доставки.
                                     </p>
 
-                                    <input v-model="this.promocode" name="promocode" class="form__input" type="text"
-                                           placeholder="Промокод">
+                                    <input
+                                        v-model="this.promocode"
+                                        name="promocode"
+                                        class="form__input"
+                                        type="text"
+                                        placeholder="Промокод"
+                                        @input="resetPromocodeError"
+                                    />
+                                    <span
+                                        v-if="this.promocodeActive"
+                                        class="form__error"
+                                        >{{ this.promocodeMessage }}</span
+                                    >
 
-                                    <span v-if="this.promocodeActive" class="form__error">{{
-                                            this.promocodeMessage
-                                        }}</span>
-
-                                    <button :disabled="!validate" class="btn-reset order__promocode" type="button"
-                                            @click="applyPromocode()">
+                                    <button
+                                        :disabled="!validate"
+                                        class="btn-reset order__promocode"
+                                        type="button"
+                                        @click="applyPromocode()"
+                                    >
                                         Применить
                                     </button>
 
-                                    <button :disabled="!validate" class="btn-reset order__submit" type="submit">
+                                    <button
+                                        :disabled="!validate"
+                                        class="btn-reset order__submit"
+                                        type="submit"
+                                    >
                                         Заказать
                                     </button>
 
-                                    <p class="order__agreement">Нажимая на кнопку «Заказать», вы подтверждаете, что
-                                        ознакомлены c <a href="docs/Согласие_на_обработку_ПДн_на_сайте_учебник.pdf"
-                                                         target="_blank">Пользовательским соглашением</a> и <a
-                                            href="docs/политика_обработки_ПДн_на_сайте_учебник.pdf" target="_blank">Политикой
-                                            о персональных данных</a>
+                                    <p class="order__agreement">
+                                        Нажимая на кнопку «Заказать», вы
+                                        подтверждаете, что ознакомлены c
+                                        <a
+                                            href="docs/Согласие_на_обработку_ПДн_на_сайте_учебник.pdf"
+                                            target="_blank"
+                                            >Пользовательским соглашением</a
+                                        >
+                                        и
+                                        <a
+                                            href="docs/политика_обработки_ПДн_на_сайте_учебник.pdf"
+                                            target="_blank"
+                                            >Политикой о персональных данных</a
+                                        >
                                     </p>
-
                                 </div>
                                 <div class="order__block order__message">
-                                    <p class="order__text">Любые вопросы по покупке книги: <a href="tel:+74993021872">+7 499 302-18-72</a>,
-                                        <a href="tel:+79993333303">+7 999 333-33-03</a>, <a
-                                            href="mailto:book@rus.study">book@rus.study</a></p>
-                                    <p class="order__text">Если вы не получили ответ, продублируйте, пожалуйста, письмо
-                                        координатору проекта на <a href="mailto:pressantonov2013@gmail.com">pressantonov2013@gmail.com</a>
+                                    <p class="order__text">
+                                        Любые вопросы по покупке книги:
+                                        <a href="tel:+74993021872"
+                                            >+7 499 302-18-72</a
+                                        >,
+                                        <a href="tel:+79993333303"
+                                            >+7 999 333-33-03</a
+                                        >,
+                                        <a href="mailto:book@rus.study"
+                                            >book@rus.study</a
+                                        >
                                     </p>
-                                    <p class="order__text">If you did not receive a response, please duplicate the
-                                        letter to the project coordinator at <a
-                                            href="mailto:pressantonov2013@gmail.com">pressantonov2013@gmail.com</a></p>
+                                    <p class="order__text">
+                                        Если вы не получили ответ,
+                                        продублируйте, пожалуйста, письмо
+                                        координатору проекта на <a
+                                            href="mailto:pressantonov2013@gmail.com"
+                                            >pressantonov2013@gmail.com</a
+                                        >
+                                    </p>
+                                    <p class="order__text">
+                                        If you did not receive a response,
+                                        please duplicate the letter to the
+                                        project coordinator at
+                                        <a
+                                            href="mailto:pressantonov2013@gmail.com"
+                                            >pressantonov2013@gmail.com</a
+                                        >
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -317,87 +727,101 @@
                 </div>
             </div>
         </div>
-        <ModalAfterSubmit @close-submit="closeSubmit" v-if="showModalSubmit"></ModalAfterSubmit>
+        <ModalAfterSubmit
+            @close-submit="closeSubmit"
+            v-if="showModalSubmit"
+        ></ModalAfterSubmit>
     </div>
 </template>
 
 <script>
-import {VueTelInput} from 'vue-tel-input';
-import {Form, Field, ErrorMessage, configure} from 'vee-validate';
-import OrderItem from './OrderItem.vue';
-import Pochta from './Pochta.vue';
-import ModalAfterSubmit from './ModalAfterSubmit.vue';
+import { VueTelInput } from "vue-tel-input";
+import { Form, Field, ErrorMessage, configure } from "vee-validate";
+import OrderItem from "./OrderItem.vue";
+import Pochta from "./Pochta.vue";
+import ModalAfterSubmit from "./ModalAfterSubmit.vue";
 import axios from "axios";
-import {reactive, ref, toRaw} from 'vue';
+import { reactive, ref, toRaw } from "vue";
 
 configure({
     validateOnBlur: false,
     validateOnChange: true,
     validateOnInput: true,
     validateOnModelUpdate: true,
-
 });
 
 export default {
-    props: ['books'],
-    components: {VueTelInput, Form, Field, ErrorMessage, OrderItem, Pochta, ModalAfterSubmit},
+    props: ["books"],
+    components: {
+        VueTelInput,
+        Form,
+        Field,
+        ErrorMessage,
+        OrderItem,
+        Pochta,
+        ModalAfterSubmit,
+    },
     data() {
         return {
             phone: 0,
             activeCountry: 0,
             productAmount: 0,
-            fio: '',
-            country: '',
-            email: '',
+            fio: "",
+            country: "",
+            email: "",
             errorFio: false,
             errorEmail: false,
             phoneValid: false,
             errorTel: false,
             selectedProducts: [],
             deliveryValue: 0,
-            paymentValue: 'robokassa',
-            currencyValue: 'rub',
-            delivery: '',
+            paymentValue: "robokassa",
+            currencyValue: "rub",
+            delivery: "",
             showModalSubmit: false,
             totalPrice: 0,
-            promocode: '',
+            promocode: "",
+            promocodes: [],
             address: reactive(null),
             subscription: null,
             courseID: null,
-            pickupAddress: '',
+            pickupAddress: "",
             courseIds: [],
             amount1: 0,
             amount2: 0,
-            promocodeMessage: '',
+            promocodeMessage: "",
             promocodeActive: 0,
-            stockType: '',
+            selectedProductType: "",
+            stockType: "",
             stock: 0,
+            appliedStock: 0,
+            appliedStockType: "",
             haveOfflineBook: 0,
             addressError: null,
             termOnlineBook1: null,
             termOnlineBook2: null,
-            booksArray: JSON.parse(JSON.stringify(this.books))
-
-        }
+            booksArray: JSON.parse(JSON.stringify(this.books)),
+            promocodeTypes: [],
+            selectedBookId: null,
+            appliedBookId: null,
+        };
     },
 
     methods: {
         incrementProduct(book) {
-            this.selectedProducts.forEach(el => {
+            this.selectedProducts.forEach((el) => {
                 if (el.id == book.id) {
                     if (el.course_id == 8) {
                         this.amount1 += 1;
                     } else this.amount2 += 1;
                     el.amount += 1;
                     book.amount += 1;
-
                 }
-            })
-
+            });
         },
 
         decrementProduct(book) {
-            this.selectedProducts.forEach(el => {
+            this.selectedProducts.forEach((el) => {
                 if (el.id == book.id) {
                     if (el.course_id == 8 && el.amount > 1) {
                         this.amount1 -= 1;
@@ -410,32 +834,30 @@ export default {
                         book.amount -= 1;
                     }
                 }
-            })
-
+            });
         },
 
-
         activeCity(newValue) {
-            console.log(newValue)
+            console.log(newValue);
             this.address = newValue;
         },
 
         countryChanged(country) {
-            this.activeCountry = country.dialCode
-            this.phone = `+ ${country.dialCode}`
+            this.activeCountry = country.dialCode;
+            this.phone = `+ ${country.dialCode}`;
         },
 
         onInvalidSubmit(e) {
             if (e.errors.fio) {
-                this.errorFio = true
+                this.errorFio = true;
             }
 
             if (e.errors.country) {
-                this.errorCountry = true
+                this.errorCountry = true;
             }
 
             if (e.errors.email) {
-                this.errorEmail = true
+                this.errorEmail = true;
             }
 
             // if (e.errors.phone) {
@@ -445,76 +867,67 @@ export default {
 
         validateFio(value) {
             if (!value) {
-                return 'Введите Ф.И.О';
+                return "Введите Ф.И.О";
             }
 
             return true;
         },
 
-
         validateEmail(value) {
             if (!value) {
-                return 'Введите E-mail!';
+                return "Введите E-mail!";
             }
             const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
             if (!regex.test(value)) {
-                return 'Введите корректный E-mail!';
+                return "Введите корректный E-mail!";
             }
 
             return true;
         },
 
         clearInput(e) {
-            e.target.classList.add('hidden');
-            if (e.target.nextSibling.getAttribute('name') == 'fio') {
-                this.fio = '';
-                this.errorFio = true
+            e.target.classList.add("hidden");
+            if (e.target.nextSibling.getAttribute("name") == "fio") {
+                this.fio = "";
+                this.errorFio = true;
             }
-            if (e.target.nextSibling.getAttribute('name') == 'country') {
-                this.country = '';
-                this.errorCountry = true
-            }
-
-            if (e.target.nextSibling.getAttribute('name') == 'email') {
-                this.email = '';
-                this.errorEmail = true
+            if (e.target.nextSibling.getAttribute("name") == "country") {
+                this.country = "";
+                this.errorCountry = true;
             }
 
-
+            if (e.target.nextSibling.getAttribute("name") == "email") {
+                this.email = "";
+                this.errorEmail = true;
+            }
         },
 
         inputChange(e) {
             const btn = e.target.previousSibling;
-            if (e.target.getAttribute('name') == 'fio') {
-                this.errorFio = false
+            if (e.target.getAttribute("name") == "fio") {
+                this.errorFio = false;
             }
 
-
-            if (e.target.getAttribute('name') == 'email') {
-                this.errorEmail = false
+            if (e.target.getAttribute("name") == "email") {
+                this.errorEmail = false;
             }
 
-
-            if (e.target.value != '') {
-                btn.classList.remove('hidden')
-
-            } else btn.classList.add('hidden')
-
+            if (e.target.value != "") {
+                btn.classList.remove("hidden");
+            } else btn.classList.add("hidden");
         },
 
         customValidate(value) {
-            console.log(value)
+            console.log(value);
             if (value.valid != undefined) {
                 if (value.valid === true) {
-                this.phoneValid = true;
-                this.errorTel = false
-            } else {
-                this.phoneValid = false
-                this.errorTel = true
-
+                    this.phoneValid = true;
+                    this.errorTel = false;
+                } else {
+                    this.phoneValid = false;
+                    this.errorTel = true;
+                }
             }
-            }
-
         },
 
         deleteNumber(e) {
@@ -526,122 +939,132 @@ export default {
         },
 
         selectedDelivery(e) {
-            this.deliveryValue = e.target.value
+            this.deliveryValue = e.target.value;
         },
 
         selectedPayment(e) {
-            this.paymentValue = e.target.value
+            this.paymentValue = e.target.value;
         },
 
         selectedCurrency(e) {
-            this.currencyValue = e.target.value
+            this.currencyValue = e.target.value;
+        },
+
+        resetPromocodeError() {
+            this.promocodeActive = 0;
+            this.promocodeMessage = "";
         },
 
         async applyPromocode() {
-            if (this.promocode === '') {
+            if (!this.selectedBookId) {
                 this.promocodeActive = 1;
-                this.promocodeMessage = 'Введите промокод';
+                this.promocodeMessage =
+                    "Выберите книгу, чтобы применить промокод";
+                return;
             }
-            try {
-                const response = await axios.get('/api/promocode', {
-                    params: {
-                        promocode: this.promocode
-                    }
-                })
-                    .then(response => {
-                        console.log(response)
-                        const data = response.data;
-                        if (data == 'no such promocode') {
-                            this.promocodeActive = 1;
-                            this.promocodeMessage = 'Данного промокода не существует';
-                        } else {
-                            if (data.active == 0) {
-                                this.promocodeActive = 1;
-                                this.promocodeMessage = 'Срок действия промокода истек';
-                            } else {
-                                this.stockType = data.stock_type;
-                                if (data.stock_type === 'руб') {
-                                    this.promocodeMessage = 'Промокод успешно применен';
-                                    this.stock = data.stock;
-                                }
-                                if (data.stock_type === '%') {
-                                    this.promocodeMessage = 'Промокод успешно применен';
-                                    this.stock = data.stock;
-                                }
-                            }
-                        }
 
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
-                return response;
-            } catch (error) {
-                if (error.response) {
-                    console.error('Ошибка:', error.response.data);
-                    console.error('Статус ошибки:', error.response.status);
-                    console.error('Заголовки:', error.response.headers);
-                } else if (error.request) {
-                    console.error('Ошибка при ожидании ответа от сервера:', error.request);
+            if (this.promocode === "") {
+                this.promocodeActive = 1;
+                this.promocodeMessage = "Введите промокод";
+                return;
+            }
+
+            try {
+                const response = await axios.get("/api/promocode", {
+                    params: { promocode: this.promocode },
+                });
+
+                const data = response.data;
+
+                const selectedBook = this.booksArray.find(
+                    (book) => book.id === this.selectedBookId
+                );
+                const selectedBookTypes = selectedBook
+                    ? selectedBook.paperType
+                    : [];
+
+                if (data === "no such promocode") {
+                    this.promocodeActive = 1;
+                    this.promocodeMessage = "Данного промокода не существует";
+                } else if (data.active === 0) {
+                    this.promocodeActive = 1;
+                    this.promocodeMessage = "Срок действия промокода истек";
                 } else {
-                    console.error('Ошибка:', error.message);
+                    const isValidPromocode = selectedBookTypes.some((type) =>
+                        data.type.includes(type)
+                    );
+
+                    if (isValidPromocode) {
+                        this.stockType = data.stock_type;
+                        this.stock = data.stock;
+                        this.appliedStock = data.stock;
+                        this.appliedStockType = data.stock_type;
+                        this.promocodeActive = 0;
+                        this.promocodeMessage = "Промокод успешно применен";
+                        this.appliedBookId = this.selectedBookId; // Привязываем промокод к конкретной книге
+                    } else {
+                        this.promocodeActive = 1;
+                        this.promocodeMessage =
+                            "Этот промокод не подходит для выбранных товаров";
+                    }
                 }
+            } catch (error) {
+                console.error("Ошибка:", error);
                 throw error;
             }
         },
 
         async onSubmit(e) {
-
             if (this.address == null) {
-                this.addressError = 'Введите адрес доставки';
-            } else this.addressError = null
-
+                this.addressError = "Введите адрес доставки";
+            } else this.addressError = null;
 
             let res = {
                 fio: this.fio,
                 email: this.email,
                 country: this.country,
-                telephone: this.phone.replaceAll(' ', ''),
+                telephone: this.phone.replaceAll(" ", ""),
                 promocode: this.promocode,
                 sum: this.total,
                 address: this.getAddress,
                 pickup: this.deliveryValue,
                 payment: this.paymentValue,
                 courses: this.getCourseID,
-                subscription: this.subscription
-            }
-
+                subscription: this.subscription,
+            };
 
             try {
-                const response = await axios.post('/api/order', res,
-                    {
+                const response = await axios
+                    .post("/api/order", res, {
                         headers: {
-                            'Content-Type': 'application/json'
-                        }
+                            "Content-Type": "application/json",
+                        },
                     })
-                    .then(response => {
-                        console.log('Успех:', response.data);
+                    .then((response) => {
+                        console.log("Успех:", response.data);
                     })
-                    .catch(error => {
-                        console.error('Ошибка:', error);
+                    .catch((error) => {
+                        console.error("Ошибка:", error);
                     });
                 await this.sendBusiness();
                 await this.sendRobokassa();
                 return response;
             } catch (error) {
                 if (error.response) {
-                    console.error('Ошибка:', error.response.data);
-                    console.error('Статус ошибки:', error.response.status);
-                    console.error('Заголовки:', error.response.headers);
+                    console.error("Ошибка:", error.response.data);
+                    console.error("Статус ошибки:", error.response.status);
+                    console.error("Заголовки:", error.response.headers);
                 } else if (error.request) {
-                    console.error('Ошибка при ожидании ответа от сервера:', error.request);
+                    console.error(
+                        "Ошибка при ожидании ответа от сервера:",
+                        error.request
+                    );
                 } else {
-                    console.error('Ошибка:', error.message);
+                    console.error("Ошибка:", error.message);
                 }
                 throw error;
             }
         },
-
 
         async sendBusiness() {
             // let res = {
@@ -716,251 +1139,270 @@ export default {
 
         async sendRobokassa() {
             let res = {
-                    //     fio: this.fio,
-                    //     email: this.email,
-                    //     country: this.country,
-                    //     telephone: this.phone.replaceAll(' ', ''),
-                    //     promocode: this.promocode,
-                    //     sum: this.total,
-                    //     address: this.getAddress,
-                    //     pickup: this.deliveryValue,
-                    //     payment: this.paymentValue,
-                    //     courses: this.getCourseID,
-                    //     subscription: this.subscription,
-                    //     amountBooks: 0,
-            }
+                //     fio: this.fio,
+                //     email: this.email,
+                //     country: this.country,
+                //     telephone: this.phone.replaceAll(' ', ''),
+                //     promocode: this.promocode,
+                //     sum: this.total,
+                //     address: this.getAddress,
+                //     pickup: this.deliveryValue,
+                //     payment: this.paymentValue,
+                //     courses: this.getCourseID,
+                //     subscription: this.subscription,
+                //     amountBooks: 0,
+            };
             try {
-                const response = await axios.get('/api/payment', {
-                    params: {
-                        out_sum: this.total,
-                        fio: this.fio,
-                        country: this.country,
-                        telephone: this.phone.replaceAll(' ', ''),
-                        promocode: this.promocode,
-                        address: this.getAddress,
-                        pickup: this.deliveryValue,
-                        subscription: this.subscription,
-                        courses: this.getCourseID,
-                    }
-                })
-                    .then(response => {
-                        console.log('Успех:', response.data);
-                         this.showModalSubmit = true;
-                        window.open(response.data, '_blank')
+                const response = await axios
+                    .get("/api/payment", {
+                        params: {
+                            out_sum: this.total,
+                            fio: this.fio,
+                            country: this.country,
+                            telephone: this.phone.replaceAll(" ", ""),
+                            promocode: this.promocode,
+                            address: this.getAddress,
+                            pickup: this.deliveryValue,
+                            subscription: this.subscription,
+                            courses: this.getCourseID,
+                        },
                     })
-                    .catch(error => {
-                        console.error('Ошибка:', error);
+                    .then((response) => {
+                        console.log("Успех:", response.data);
+                        this.showModalSubmit = true;
+                        window.open(response.data, "_blank");
+                    })
+                    .catch((error) => {
+                        console.error("Ошибка:", error);
                     });
                 return response;
             } catch (error) {
                 if (error.response) {
-                    console.error('Ошибка:', error.response.data);
-                    console.error('Статус ошибки:', error.response.status);
-                    console.error('Заголовки:', error.response.headers);
+                    console.error("Ошибка:", error.response.data);
+                    console.error("Статус ошибки:", error.response.status);
+                    console.error("Заголовки:", error.response.headers);
                 } else if (error.request) {
-                    console.error('Ошибка при ожидании ответа от сервера:', error.request);
+                    console.error(
+                        "Ошибка при ожидании ответа от сервера:",
+                        error.request
+                    );
                 } else {
-                    console.error('Ошибка:', error.message);
+                    console.error("Ошибка:", error.message);
                 }
                 throw error;
             }
         },
 
-
         closeSubmit() {
             this.showModalSubmit = false;
-            this.$emit('close-order');
+            this.$emit("close-order");
         },
 
-
         addProduct(product) {
-            const haveProduct = this.selectedProducts.some(el => el.id === product.id);
+            this.selectedBookId = product.id;
+            console.log("selected book id", this.selectedBookId);
+            const haveProduct = this.selectedProducts.some(
+                (el) => el.id === product.id
+            );
             product.amount = 1;
             let obj;
             if (!haveProduct) {
                 // this.incrementProduct(product);
-                if (product.course_id == 8 && product.isOnline == false) this.amount1 = 1;
-                if (product.course_id == 9 && product.isOnline == false) this.amount2 = 1;
-
+                if (product.course_id == 8 && product.isOnline == false)
+                    this.amount1 = 1;
+                if (product.course_id == 9 && product.isOnline == false)
+                    this.amount2 = 1;
 
                 if (product.isOnline) {
                     obj = {
-                                id: product.id,
-                                course_id: product.course_id,
-                                name: product.name,
-                                type: product.type,
-                                level: product.level,
-                                isOnline: product.isOnline,
-                                price: product.price.always[this.currencyValue],
-                                amount: product.amount
-                            }
+                        id: product.id,
+                        course_id: product.course_id,
+                        name: product.name,
+                        type: product.type,
+                        level: product.level,
+                        isOnline: product.isOnline,
+                        price: product.price.always[this.currencyValue],
+                        amount: product.amount,
+                    };
                 } else {
-                    obj =  {
-                                id: product.id,
-                                course_id: product.course_id,
-                                name: product.name,
-                                type: product.type,
-                                level: product.level,
-                                isOnline: product.isOnline,
-                                price: product.price[this.currencyValue],
-                                amount: product.amount
-                            }
+                    obj = {
+                        id: product.id,
+                        course_id: product.course_id,
+                        name: product.name,
+                        type: product.type,
+                        level: product.level,
+                        isOnline: product.isOnline,
+                        price: product.price[this.currencyValue],
+                        amount: product.amount,
+                    };
                 }
 
                 this.selectedProducts.push(obj);
 
-
                 if (product.isOnline == true) {
-                    this.subscription = 1
-                } else this.subscription = 0
-
+                    this.subscription = 1;
+                } else this.subscription = 0;
             } else {
                 const id = product.id;
                 let objNew;
-                this.selectedProducts.forEach(el => {
-                    if (el.id == id) objNew = el
-                })
+                this.selectedProducts.forEach((el) => {
+                    if (el.id == id) objNew = el;
+                });
                 const index = this.selectedProducts.indexOf(objNew);
-                if (product.course_id == 8 && product.isOnline == false) this.amount1 = 0;
-                if (product.course_id == 9 && product.isOnline == false) this.amount2 = 0;
+                if (product.course_id == 8 && product.isOnline == false)
+                    this.amount1 = 0;
+                if (product.course_id == 9 && product.isOnline == false)
+                    this.amount2 = 0;
                 this.selectedProducts.splice(index, 1);
                 product.amount = 0;
             }
 
-            const resultSub = this.selectedProducts.some(el => {
-                return el.isOnline == true
-            })
+            const resultSub = this.selectedProducts.some((el) => {
+                return el.isOnline == true;
+            });
 
+            if (resultSub) this.subscription = 1;
+            else this.subscription = 0;
 
-            if (resultSub) this.subscription = 1
-            else this.subscription = 0
+            const resultOffline = this.selectedProducts.some((el) => {
+                return el.isOnline == false;
+            });
 
-
-            const resultOffline = this.selectedProducts.some(el => {
-                return el.isOnline == false
-            })
-
-
-            if (resultOffline) this.haveOfflineBook = 1
-            else this.haveOfflineBook = 0
-
+            if (resultOffline) this.haveOfflineBook = 1;
+            else this.haveOfflineBook = 0;
         },
 
         changeTermBook(event, id) {
-            this.selectedProducts.forEach(product => {
+            this.selectedProducts.forEach((product) => {
                 if (product.id == id) {
                     product.price = event.target.value;
                 }
-
-
-            } )
-        }
-
+            });
+        },
     },
 
     computed: {
-
         getAddress() {
-
             if (this.deliveryValue == 0) {
-                return this.pickupAddress = 'г. Москва, ул. Ростовская набережная, д. 5, вход с внутреннего двора, слева от 5-го подъезда'
+                return (this.pickupAddress =
+                    "г. Москва, ул. Ростовская набережная, д. 5, вход с внутреннего двора, слева от 5-го подъезда");
             } else {
-                return this.pickupAddress = `${this.address.address}`
+                return (this.pickupAddress = `${this.address.address}`);
             }
         },
 
         getCourseID() {
-            return this.selectedProducts.map(el => el.course_id)
+            return this.selectedProducts.map((el) => el.course_id);
         },
-
 
         getTermOnlineBook1: {
             get() {
-                return this.getTermOnlineBook1
+                return this.getTermOnlineBook1;
             },
 
             set(value) {
-                this.getTermOnlineBook1 = value
-            }
+                this.getTermOnlineBook1 = value;
+            },
         },
 
         getTermOnlineBook2: {
             get() {
-                return this.getTermOnlineBook2
+                return this.getTermOnlineBook2;
             },
 
             set(value) {
-                this.getTermOnlineBook2 = value
-            }
+                this.getTermOnlineBook2 = value;
+            },
         },
 
         validate() {
-            if (this.validateFio(this.fio) == true && this.validateEmail(this.email) == true && this.phoneValid == true && this.selectedProducts.length > 0)
-                return true
+            if (
+                this.validateFio(this.fio) == true &&
+                this.validateEmail(this.email) == true &&
+                this.phoneValid == true &&
+                this.selectedProducts.length > 0
+            )
+                return true;
             else {
-                return false
+                return false;
             }
         },
 
         total() {
-
             let totalPrice = this.selectedProducts.reduce((total, book) => {
-                return total + (book.amount * book.price);
-            }, 0)
+                let bookPrice = book.amount * book.price;
 
-            if (this.promocode != '') {
-                if (this.stockType === 'руб') {
-                    totalPrice = totalPrice - this.stock;
+                // Применяем скидку только к книге, на которую действует промокод
+                if (book.id === this.appliedBookId) {
+                    console.log('total:bookID',)
+                    if (
+                        this.appliedStockType === "руб" &&
+                        this.appliedStock > 0
+                    ) {
+                        bookPrice = Math.max(bookPrice - this.appliedStock, 0);
+                    }
+                    if (
+                        this.appliedStockType === "%" &&
+                        this.appliedStock > 0
+                    ) {
+                        bookPrice = Math.max(
+                            bookPrice - (bookPrice * this.appliedStock) / 100,
+                            0
+                        );
+                    }
                 }
-                if (this.stockType === '%') {
-                    totalPrice = totalPrice - ((totalPrice * this.stock)/100);
-                }
-            }
+
+                return total + bookPrice;
+            }, 0);
 
             return totalPrice;
-
         },
 
         productAmount() {
-            return this.selectedProducts.reduce((total, book) => {
+            // Рассчитываем общее количество товаров
+            const total = this.selectedProducts.reduce((total, book) => {
                 return total + book.amount;
-            }, 0)
+            }, 0);
+
+            // Гарантируем, что количество не будет отрицательным
+            return Math.max(total, 0);
         },
 
         getTermOnlineBook1() {
-            this.books.forEach(el => {
-                                    if (el.course_id == 8 && el.isOnline == true) {
-                                        return el.price.always.rub
-                                    }
-                                })
-        }
-
-
+            this.books.forEach((el) => {
+                if (el.course_id == 8 && el.isOnline == true) {
+                    return el.price.always.rub;
+                }
+            });
+        },
     },
 
     created() {
-        this.termOnlineBook1 = this.books.find(el => el.course_id === 8 && el.isOnline)?.price.always.rub;
-        this.termOnlineBook2 = this.books.find(el => el.course_id === 9 && el.isOnline)?.price.always.rub;
+        this.termOnlineBook1 = this.books.find(
+            (el) => el.course_id === 8 && el.isOnline
+        )?.price.always.rub;
+        this.termOnlineBook2 = this.books.find(
+            (el) => el.course_id === 9 && el.isOnline
+        )?.price.always.rub;
     },
 
     watch: {
-    booksArray: {
-      handler(newProducts) {
-        // Обновление cartItems при изменении products
-        this.selectedProducts.forEach(product => {
-          const productItem = newProducts.find(p => p.id === product.id);
-          if (productItem) {
-            product.amount = productItem.amount;
-          }
-        });
-      },
-      deep: true, // Следим за глубокими изменениями в products
+        booksArray: {
+            handler(newProducts) {
+                // Обновление cartItems при изменении products
+                this.selectedProducts.forEach((product) => {
+                    const productItem = newProducts.find(
+                        (p) => p.id === product.id
+                    );
+                    if (productItem) {
+                        product.amount = productItem.amount;
+                    }
+                });
+            },
+            deep: true, // Следим за глубокими изменениями в products
+        },
     },
-  },
-
-
-
-}
+};
 </script>
 
 <style>
@@ -973,4 +1415,3 @@ export default {
     pointer-events: all !important;
 }
 </style>
-

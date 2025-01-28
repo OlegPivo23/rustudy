@@ -64,6 +64,8 @@ Route::get('/teachersfeedbacks/{teachersfeedback}', [TeachersfeedbackController:
 Route::post('/addnews',  [AddNewsController::class, 'submit']);
 
 Route::get('/promocode', [PromocodeController::class, 'index']);
+Route::get('/promocodes', [PromocodeController::class, 'getAllPromocodes']);
+
 
 Route::post('/payment',  [RobocassaController::class, 'index']);
 Route::post('/payment/success',  [RobocassaController::class, 'success']);
