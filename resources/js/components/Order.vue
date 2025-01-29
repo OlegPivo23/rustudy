@@ -1001,7 +1001,7 @@ export default {
                         this.appliedStockType = data.stock_type;
                         this.promocodeActive = 0;
                         this.promocodeMessage = "Промокод успешно применен";
-                        this.appliedBookId = this.selectedBookId; // Привязываем промокод к конкретной книге
+                        this.appliedBookId = this.selectedBookId; 
                     } else {
                         this.promocodeActive = 1;
                         this.promocodeMessage =
